@@ -1,45 +1,46 @@
+// Header.jsx
 import { useState } from "react";
-import SearchBar from "./SearchBar";
 
-export default function Header() {
+export default function Header({ city = "New York" }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Format today's date like "Tuesday, Aug 20"
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
-    <>
-    <nav className="bg-gray-900 w-full mb-130 text-white p-4">
-      <div className="max-w-7xl mx-auto  flex items-center justify-between">
-        {/* Logo */}
-        <div className="text-2xl  p-8 font-bold">Daily Weather</div>
+    <header className="text-center py-6 text-white">
+      {/* City Name */}
+      <h1 className="text-4xl font-bold tracking-wide drop-shadow-md">
+        {city}
+      </h1>
 
-        {/* Desktop / Medium+ Menu */}
-        <ul className="hidden md:flex space-x-6">
-          <li><a href="#" className="hover:text-yellow-400">Weather</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Warning GIB</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Favourite City</a></li>
-          <li><a href="#" className="hover:text-yellow-400">...</a></li>
-        </ul>
+      {/* Date */}
+      <p className="text-lg text-gray-200 mt-1">{today}</p>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden focus:outline-none"
+      {/* Optional settings/search button */}
+      <div className="absolute top-4 right-4">
+        <button
           onClick={() => setIsOpen(!isOpen)}
+          className="p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md transition"
         >
-          ☰
+          ⚙️
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Dropdown placeholder */}
       {isOpen && (
-        <ul className="flex flex-col space-y-4 mt-4 md:hidden">
-          <li><a href="#" className="hover:text-yellow-400">Home</a></li>
-          <li><a href="#" className="hover:text-yellow-400">About</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Services</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Contact</a></li>
-        </ul>
+        <div className="absolute top-14 right-4 bg-white/90 rounded-xl shadow-md p-3 text-gray-800">
+          <ul className="space-y-2">
+            <li className="hover:text-blue-500 cursor-pointer">Settings</li>
+            <li className="hover:text-blue-500 cursor-pointer">Favorites</li>
+            <li className="hover:text-blue-500 cursor-pointer">About</li>
+          </ul>
+        </div>
       )}
-    </nav>
-    
-</>
+    </header>
   );
 }
-
