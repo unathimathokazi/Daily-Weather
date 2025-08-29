@@ -1,76 +1,43 @@
-import React from "react";
 
-export default function WeatherTenDayCard({ forecast = [] }) {
-  // Fallback data if forecast is empty
-  const fallback = Array.from({ length: 10 }).map((_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
-    return {
-      date: d.toISOString().slice(0, 10),
-      tempC: Math.round(18 + Math.random() * 12),
-      windKmh: Math.round(5 + Math.random() * 30),
-      humidity: Math.round(40 + Math.random() * 50),
-      summary: ["Sunny", "Clear", "Cloudy", "Showers", "Windy", "Storms"][
-        Math.floor(Math.random() * 6)
-      ],
-    };
-  });
-
-  const days = (forecast.length ? forecast : fallback).slice(0, 10);
-
-  const dayLabel = (iso) =>
-    new Date(iso).toLocaleDateString(undefined, { weekday: "short" });
-  const dateLabel = (iso) =>
-    new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-
-  const weatherIcons = {
-    Sunny: "☀️",
-    Clear: "🌤️",
-    Cloudy: "☁️",
-    Showers: "🌦️",
-    Windy: "🌬️",
-    Storms: "⛈️",
-  };
-
+export default function WeatherCard({ weather }) {
   return (
-    <section className="w-full">
-      <div className="flex gap-4 overflow-x-auto py-4 px-2">
-        {days.map((d, idx) => (
-          <article
-            key={idx}
-            className="min-w-[150px] rounded-2xl bg-white/20 backdrop-blur-md shadow-md p-4 flex-shrink-0 transform transition duration-200 hover:scale-105"
-          >
-            {/* Day + Date */}
-            <div className="flex justify-between items-baseline">
-              <h3 className="text-sm font-semibold text-white">{dayLabel(d.date)}</h3>
-              <span className="text-xs text-gray-200">{dateLabel(d.date)}</span>
-            </div>
+    <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-6 mt-6 rounded-2xl shadow-lg text-center text-white">
+     
+      <h2 className="text-2xl font-bold">{weather.city}</h2>
+      <p className="text-5xl mt-2">{weather.tempC}°C</p>
+      <p className="capitalize text-lg mt-1">{weather.summary}</p>
 
-            {/* Weather Icon */}
-            <div className="text-3xl text-center mt-2">{weatherIcons[d.summary]}</div>
+     
+      {weather.icon && (
+        <img
+          className="mx-auto mt-2 w-20 h-20"
+          src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+          alt={weather.summary}
+        />
+      )}
 
-            {/* Temperature */}
-            <div className="mt-3 flex items-end justify-center gap-1">
-              <span className="text-3xl sm:text-4xl font-bold text-red-500">{d.tempC}°</span>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-              {/* Wind */}
-              <div className="flex flex-col rounded-lg border border-red-100 bg-red-50/40 px-2 py-1 text-center">
-                <span className="text-[10px] uppercase tracking-wide text-red-300">Wind</span>
-                <span className="font-semibold text-red-500">{d.windKmh} km/h</span>
-              </div>
-
-              {/* Humidity */}
-              <div className="flex flex-col rounded-lg border border-gray-100 bg-gray-50/30 px-2 py-1 text-center">
-                <span className="text-[10px] uppercase tracking-wide text-gray-200">Humidity</span>
-                <span className="font-semibold text-white">{d.humidity}%</span>
-              </div>
-            </div>
-          </article>
-        ))}
+     
+      <div className="mt-4">
+        <p className="font-semibold">Rise and shine 🌅</p>
+        <p>Sunrise: {weather.sunrise}</p>
+        <p className="mt-2">Sunset: {weather.sunset}</p>
       </div>
-    </section>
+
+     
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-black">
+        <div className="bg-yellow-200 p-2 rounded-lg">
+          🌸 Pollen: {weather.pollen}
+        </div>
+        <div className="bg-green-300 p-2 rounded-lg">
+          🌬 AQI: {weather.aqi}
+        </div>
+        <div className="bg-blue-300 p-2 rounded-lg">
+          🏃 Running: {weather.running}
+        </div>
+        <div className="bg-red-300 p-2 rounded-lg">
+          🚗 Driving: {weather.driving}
+        </div>
+      </div>
+    </div>
   );
 }

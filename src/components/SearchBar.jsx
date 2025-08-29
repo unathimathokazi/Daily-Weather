@@ -1,37 +1,30 @@
 import { useState } from "react";
-import { Search } from "lucide-react"; // optional: adds a small icon like iOS
 
 export default function SearchBar({ onSearch }) {
-  const [input, setInput] = useState("");
+  const [city, setCity] = useState("");
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.trim()) {
-      onSearch(input);
-      setInput("");
-    }
-  }
+    if (city.trim()) onSearch(city);
+  };
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
-      className="flex items-center justify-center gap-2 p-2"
+    <form
+      onSubmit={handleSubmit}
+      className="flex justify-center gap-2 mt-4"
     >
-      <div className="flex items-center bg-white/20 backdrop-blur-md rounded-full px-4 py-2 w-72 shadow-md">
-        <Search className="text-white/70 mr-2" size={18} />
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Search city"
-          className="bg-transparent text-white placeholder-white/70 focus:outline-none w-full"
-        />
-      </div>
+      <input
+        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="Enter city..."
+        className="px-4 py-2 rounded-lg border shadow"
+      />
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500/80 text-white rounded-full shadow-md hover:bg-blue-500 transition"
+        className="px-4 py-2 bg-sky-600 text-white rounded-lg shadow hover:bg-sky-700"
       >
-        Go
+        Search
       </button>
     </form>
   );
